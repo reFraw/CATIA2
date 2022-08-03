@@ -29,7 +29,14 @@ def workflow(mode, model=None):
 		print('\n\n>>> Starting testing phase.\n')
 
 		test_scores = input_model.evaluate(test_data)
-		print('\n')
+		print('\n\n')
+		print("Testing Loss: %.2f%%"%(test_scores[0] * 100))
+		print("Testing Accuracy: %.2f%%"%(test_scores[1] * 100))
+		print("Testing Precision: %.2f%%"%(test_scores[2] * 100))
+		print("Testing Recall: %.2f%%"%(test_scores[3] * 100))
+		print("Testing AUC: %.2f%%"%(test_scores[4] * 100))
+
+
 
 	elif main_v['mode'] == 'train-val':
 
