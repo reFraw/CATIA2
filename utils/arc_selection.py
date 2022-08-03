@@ -8,7 +8,7 @@ def select_arc(archi_path, mode):
 	global main_v
 
 	if mode == 'test':
-		print('\n>>> Function not enabled.')
+		print('\n>>> Function not enabled in test mode.')
 
 	else:
 		print('\n>>> Select one of the available architecture: \n')

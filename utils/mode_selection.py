@@ -68,22 +68,13 @@ def select_mode(current_path):
 		print('\n>>> Invalid input. Set default value.')
 		main_v['mode'] = 'train-val'
 
-		main_v['val_split'] = float(input('\n>>> Enter the validation split. Default value 0.2.\n<<< '))
+		try:
+			main_v['val_split'] = float(input('\n>>> Enter the validation split. Press ENTER to set default value 0.2.\n<<< '))
+		except:
+			main_v['val_split'] = 0.2
 
 		if main_v['val_split'] <= 0 or main_v['val_split'] >= 1:
 			print('\n>>> Invalid input. Set default value.')
-
 			main_v['val_split'] = 0.2
-
-		save_check = '_'
-
-		while save_check.lower() != 'y' or save_check.lower() != 'n':
-			save_check = input('\n>>> Save the model? [y/n]\n<<< ')
-
-		if save_check == 'y':
-
-			output_model = input('\n>>> Insert model name\n<<< ')
-			output_model = os.path.join(current_path, output_model)
-			main_v['output_model'] = output_model
 
 	return mode
