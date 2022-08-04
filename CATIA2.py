@@ -76,6 +76,14 @@ def check_args(args):
 	main_v['input_net'] = (imgSize, imgSize, channels)
 	main_v['image_size'] = main_v['input_net'][0:2]
 
+def show_menu():
+	print(bcolors.WARNING + 'Insert EXIT to quit the program\n' + bcolors.ENDC)
+
+	print(bcolors.OKCYAN + '{1} --- Mode selection' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '{2} --- Dataset generation' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '{3} --- Architecture selection' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '{4} --- Start the CNN\n\n' + bcolors.ENDC)
+
 
 if __name__ == '__main__':
 
@@ -110,10 +118,10 @@ if __name__ == '__main__':
 	else:
 		print(bcolors.WARNING + '\t\t\tInsert EXIT to quit the program\n' + bcolors.ENDC)
 
-		print(bcolors.OKCYAN + '\t\t\t' + '{1} --- Mode selection' + bcolors.ENDC)
-		print(bcolors.OKCYAN + '\t\t\t' + '{2} --- Dataset generation' + bcolors.ENDC)
-		print(bcolors.OKCYAN + '\t\t\t' + '{3} --- Architecture selection\n' + bcolors.ENDC)
-		print(bcolors.OKCYAN + '\t\t\t' + '{4} --- Start the CNN\n\n' + bcolors.ENDC)
+		print(bcolors.OKCYAN + '{1} --- Mode selection' + bcolors.ENDC)
+		print(bcolors.OKCYAN + '{2} --- Dataset generation' + bcolors.ENDC)
+		print(bcolors.OKCYAN + '{3} --- Architecture selection' + bcolors.ENDC)
+		print(bcolors.OKCYAN + '{4} --- Start the CNN\n\n' + bcolors.ENDC)
 
 		# ========== MAIN ========== #
 
@@ -217,6 +225,8 @@ if __name__ == '__main__':
 
 			else:
 				print('>>> Invalid input')
+
+			show_menu()
 
 		
 
