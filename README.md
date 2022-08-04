@@ -12,4 +12,4 @@ See sample datasets in the 'DATASETS' folder.
 ### Notes
 1) The inspiration for the writing of this project comes from the TAMI tool (https://github.com/Djack1010/tami) used during my internship and thesis work.
 
-2) The test model in 'models_saved' folder was trained on the AD000 dataset.
+2) The SAMPLE model in 'models_saved' folder was trained on the AD000 dataset.
