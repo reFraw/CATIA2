@@ -19,21 +19,27 @@ from models_code.FAB_CONVNET.FAB_CONVNET import FAB_CONVNET
 def parser():
 
 	pars = argparse.ArgumentParser(prog='CATIA2', description='CNNs Aggregator Tool for Image Analysis 2')
-	group = pars.add_argument_group('Arguments')
+	subparser = pars.add_subparsers(dest='command')
 
-	group.add_argument('-u', '--usage', type=str, required=False, choices=['y'], help='Enable the one-line arguments mode.')
-	group.add_argument('-a', '--architecture', type=str, required=False, choices=['FCNN', 'FAB_CONVNET'],
+	# ======= One line mode ======= #
+	usage = subparser.add_parser('one-line')
+
+	usage.add_argument('-u', '--usage', type=str, required=False, choices=['y'], help='Enable the one-line arguments mode.')
+	usage.add_argument('-a', '--architecture', type=str, required=False, choices=['FCNN', 'FAB_CONVNET'],
 		help='One of the available architectures.')
-	group.add_argument('-d', '--dataset', type=str, required=False, help='Name of the dataset.')
-	group.add_argument('-o', '--output', type=str, required=False, help='Name of the output model.')
-	group.add_argument('-l', '--loading', type=str, required=False, help='Name of the input model.')
-	group.add_argument('-e', '--epochs', type=int, required=False, help='Number of epochs for the training phase. Defaul value 10.', default=10)
-	group.add_argument('-i', '--image_size', type=str, required=False, help='Image size in the format SIZExCHANNELS. Default value 100x1.', default='100x1')
-	group.add_argument('-b', '--batch_size', type=int, required=False, default=32, help='Default value 32.')
-	group.add_argument('-r', '--l_rate', type=float, required=False, help='Learning rate value for optimizer. Default value 0.01.', default=0.01)
-	group.add_argument('-v', '--validation_split', type=float, required=False, default=0.2, help='Default value 0.2.')
-	group.add_argument('-m', '--mode', type=str, required=False, choices=['train-val', 'test', 'train-test'],
+	usage.add_argument('-d', '--dataset', type=str, required=False, help='Name of the dataset.')
+	usage.add_argument('-o', '--output', type=str, required=False, help='Name of the output model.')
+	usage.add_argument('-l', '--loading', type=str, required=False, help='Name of the input model.')
+	usage.add_argument('-e', '--epochs', type=int, required=False, help='Number of epochs for the training phase. Defaul value 10.', default=10)
+	usage.add_argument('-i', '--image_size', type=str, required=False, help='Image size in the format SIZExCHANNELS. Default value 100x1.', default='100x1')
+	usage.add_argument('-b', '--batch_size', type=int, required=False, default=32, help='Default value 32.')
+	usage.add_argument('-r', '--l_rate', type=float, required=False, help='Learning rate value for optimizer. Default value 0.01.', default=0.01)
+	usage.add_argument('-v', '--validation_split', type=float, required=False, default=0.2, help='Default value 0.2.')
+	usage.add_argument('-m', '--mode', type=str, required=False, choices=['train-val', 'test', 'train-test'],
 		help='One of the avaliable mode | train-val | train-test | test | -- Default value train-val.', default='train-val')
+
+	# ======= Wizard mode ======= #
+	nousage = subparser.add_parser('wizard')
 
 	args = pars.parse_args()
 
@@ -63,18 +69,35 @@ def check_args(args):
 	except:
 		main_v['input_model'] = None
 
-	imgSize = int(args.image_size.split('x')[0])
-	channels = int(args.image_size.split('x')[1])
+	if main_v['mode'] != 'test':
+		imgSize = int(args.image_size.split('x')[0])
+		channels = int(args.image_size.split('x')[1])
 
-	if channels == 1:
-		main_v['color_mode'] = 'grayscale'
-	elif channels == 3:
-		main_v['color_mode'] = 'rgb'
-	elif channels == 4:
-		main_v['color_mode'] = 'rgba'
+		if channels == 1:
+			main_v['color_mode'] = 'grayscale'
+		elif channels == 3:
+			main_v['color_mode'] = 'rgb'
+		elif channels == 4:
+			main_v['color_mode'] = 'rgba'
 
-	main_v['input_net'] = (imgSize, imgSize, channels)
-	main_v['image_size'] = main_v['input_net'][0:2]
+		main_v['input_net'] = (imgSize, imgSize, channels)
+		main_v['image_size'] = main_v['input_net'][0:2]
+
+	else:
+		index = main_v['input_model'].index('_i')
+		image = main_v['input_model'][index+2:]
+		imgSize = int(image.split('x')[0])
+		channels = int(image.split('x')[1])
+
+		if channels == 1:
+			main_v['color_mode'] = 'grayscale'
+		elif channels == 3:
+			main_v['color_mode'] = 'rgb'
+		elif channels == 4:
+			main_v['color_mode'] = 'rgba'
+
+		main_v['input_net'] = (imgSize, imgSize, channels)
+		main_v['image_size'] = main_v['input_net'][0:2]
 
 def show_menu():
 	print(bcolors.WARNING + 'Insert EXIT to quit the program\n' + bcolors.ENDC)
@@ -100,7 +123,7 @@ if __name__ == '__main__':
 
 	args = parser()
 
-	if args.usage == 'y':
+	if args.command == 'one-line':
 		
 		check_args(args)
 
@@ -115,7 +138,7 @@ if __name__ == '__main__':
 		else:
 			workflow(main_v['mode'], model)
 
-	else:
+	elif args.command == 'wizard':
 		print(bcolors.WARNING + '\t\t\tInsert EXIT to quit the program\n' + bcolors.ENDC)
 
 		print(bcolors.OKCYAN + '{1} --- Mode selection' + bcolors.ENDC)
@@ -127,7 +150,7 @@ if __name__ == '__main__':
 
 		chaser = '_'
 
-		while chaser != 'EXIT':
+		while chaser.lower() != 'EXIT':
 
 			chaser = input(bcolors.WARNING + '\n>>> Select mode\n<<< ' + bcolors.ENDC)
 
@@ -219,7 +242,7 @@ if __name__ == '__main__':
 				else:
 					print('\n>>> SET MODE FIRST.')
 
-			elif chaser == 'EXIT':
+			elif chaser.lower() == 'EXIT':
 				print('>>> Exiting the program\n')
 				print(quit())
 
