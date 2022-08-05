@@ -34,7 +34,8 @@ def workflow(mode, model=None):
 		print("Testing Accuracy: %.2f%%"%(test_scores[1] * 100))
 		print("Testing Precision: %.2f%%"%(test_scores[2] * 100))
 		print("Testing Recall: %.2f%%"%(test_scores[3] * 100))
-		print("Testing AUC: %.2f%%"%(test_scores[4] * 100))
+		print("Testing AUC: %.2f%% \n"%(test_scores[4] * 100))
+
 
 
 
@@ -118,7 +119,7 @@ def workflow(mode, model=None):
 		print("Testing Accuracy: %.2f%%"%(test_scores[1] * 100))
 		print("Testing Precision: %.2f%%"%(test_scores[2] * 100))
 		print("Testing Recall: %.2f%%"%(test_scores[3] * 100))
-		print("Testing AUC: %.2f%%"%(test_scores[4] * 100))
+		print("Testing AUC: %.2f%% \n"%(test_scores[4] * 100))
 
 		if main_v['output_model'] is not None:
 			model.save(main_v['output_model'])
