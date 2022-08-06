@@ -104,12 +104,13 @@ def show_main_menu():
 	print('\n' + bcolors.HEADER +  header + bcolors.ENDC)
 	print(bcolors.HEADER + '\t\tCNNs Aggregator Tool for Image Analysis 2\n\n' + bcolors.ENDC)
 
-	print(bcolors.WARNING + '\t\t\tInsert EXIT to quit the program\n' + bcolors.ENDC)
+	print(bcolors.WARNING + '\t\t}---[⦿] Insert EXIT to quit the program [⦿]---{\n' + bcolors.ENDC)
 
-	print(bcolors.OKCYAN + '\t\t\t{1} --- Mode selection' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '\t\t\t{2} --- Dataset generation' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '\t\t\t{3} --- Architecture selection' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '\t\t\t{4} --- Start the CNN\n\n' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t\t\t{1}--- Mode selection' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t\t\t{2}--- Dataset generation' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t\t\t{3}--- Architecture selection' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t\t\t{4}--- Check parameters' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t\t\t{5}--- Start the CNN\n\n' + bcolors.ENDC)
 
 
 if __name__ == '__main__':
@@ -150,7 +151,7 @@ if __name__ == '__main__':
 
 		while chaser.lower() != 'exit':
 
-			chaser = input(bcolors.WARNING + '\n>>> Select mode\n<<< ' + bcolors.ENDC)
+			chaser = input(bcolors.WARNING + '\nCATIA2~# ' + bcolors.ENDC)
 
 			if chaser == '1':
 				select_mode(model_saved_path)
@@ -166,12 +167,19 @@ if __name__ == '__main__':
 					show_main_menu()
 
 			elif chaser == '4':
+				print('\n>>> Parameters: \n')
+
+				for item in main_v:
+					if item.startswith('train') or item.startswith('test') or item.startswith('output'):
+						pass
+					else:
+						print(bcolors.OKGREEN + '{} --> {}\n'.format(item, main_v[item]) + bcolors.ENDC)
+
+			elif chaser == '5':
 
 				if main_v['mode'] == 'train-val' or main_v['mode'] == 'train-test':
 
 					main_v['input_model'] = None
-
-					main_v['epochs'] = int(input('\n>>> Insert epochs for training\n<<< '))
 
 					save_check = '_'
 
@@ -185,55 +193,21 @@ if __name__ == '__main__':
 						output_model = os.path.join(model_saved_path, output_model)
 						main_v['output_model'] = output_model
 
-					check_ok = '_'
-
-					print('\n>>> Parameters: \n')
-
-					for item in main_v:
-						if item.startswith('train') or item.startswith('test'):
-							pass
-						else:
-							print(bcolors.OKGREEN + '{} --> {}\n'.format(item, main_v[item]) + bcolors.ENDC)
-
-					while check_ok.lower() != 'y' and check_ok.lower() != 'n':
-						check_ok = input('\n>>> Correct parameters? [y/n]\n<<< ')
-
-					if check_ok.lower() == 'y':
-
-						if main_v['architecture'] == 'FCNN':
+					if main_v['architecture'] == 'FCNN':
 							model = FCNN(main_v['input_net'], main_v['num_classes'], main_v['learning_rate'])
 
-						elif main_v['architecture'] == 'FAB_CONVNET':
+					elif main_v['architecture'] == 'FAB_CONVNET':
 							model = FAB_CONVNET(main_v['input_net'], main_v['num_classes'], main_v['learning_rate'])
 
-						workflow(main_v['mode'], model)
-
-					else:
-						os.system('clear')
-						show_main_menu()
+					workflow(main_v['mode'], model)
+					show_main_menu()
 
 				elif main_v['mode'] == 'test':
 
 					main_v['output_model'] = None
 
-					check_ok = '_'
-
-					print('\n>>> Parameters: \n')
-
-					for item in main_v:
-						if item.startswith('train') or item.startswith('test'):
-							pass
-						else:
-							print(bcolors.OKGREEN + '{} --> {}\n'.format(item, main_v[item]) + bcolors.ENDC)
-
-					while check_ok.lower() != 'y' and check_ok.lower() != 'n':
-						check_ok = input('\n>>> Correct parameters? [y/n]\n<<< ')
-
-					if check_ok.lower() == 'y' and main_v['dataset_name'] is not None:
+					if main_v['dataset_name'] is not None:
 						workflow(main_v['mode'])
-						
-					elif check_ok.lower() == 'n':
-						os.system('clear')
 						show_main_menu()
 
 					else:
