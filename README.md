@@ -13,6 +13,7 @@ See sample datasets in the 'DATASETS' folder.
 CATIA2 has two modes:
 1) Wizard mode >>> Enter 'python CATIA2.py wiz'
 2) One-line mode >>> Enter 'python CATIA2.py one-line'
+
 To see the parameters to be entered in the one-line mode use 'python CATIA2.py one-line -h'.
 
 ### Notes
