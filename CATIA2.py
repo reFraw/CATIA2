@@ -22,7 +22,7 @@ def parser():
 	subparser = pars.add_subparsers(dest='command')
 
 	# ======= One line mode ======= #
-	usage = subparser.add_parser('one-line')
+	usage = subparser.add_parser('one-line', help='Enable the one-line mode.')
 
 	usage.add_argument('-u', '--usage', type=str, required=False, choices=['y'], help='Enable the one-line arguments mode.')
 	usage.add_argument('-a', '--architecture', type=str, required=False, choices=['FCNN', 'FAB_CONVNET'],
@@ -39,7 +39,7 @@ def parser():
 		help='One of the avaliable mode | train-val | train-test | test | -- Default value train-val.', default='train-val')
 
 	# ======= Wizard mode ======= #
-	nousage = subparser.add_parser('wizard')
+	nousage = subparser.add_parser('wiz', help='Enable the wizard mode.')
 
 	args = pars.parse_args()
 
@@ -99,13 +99,17 @@ def check_args(args):
 		main_v['input_net'] = (imgSize, imgSize, channels)
 		main_v['image_size'] = main_v['input_net'][0:2]
 
-def show_menu():
-	print(bcolors.WARNING + 'Insert EXIT to quit the program\n' + bcolors.ENDC)
+def show_main_menu():
 
-	print(bcolors.OKCYAN + '{1} --- Mode selection' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '{2} --- Dataset generation' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '{3} --- Architecture selection' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '{4} --- Start the CNN\n\n' + bcolors.ENDC)
+	print('\n' + bcolors.HEADER +  header + bcolors.ENDC)
+	print(bcolors.HEADER + '\t\tCNNs Aggregator Tool for Image Analysis 2\n\n' + bcolors.ENDC)
+
+	print(bcolors.WARNING + '\t\t\tInsert EXIT to quit the program\n' + bcolors.ENDC)
+
+	print(bcolors.OKCYAN + '\t\t\t{1} --- Mode selection' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t\t\t{2} --- Dataset generation' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t\t\t{3} --- Architecture selection' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t\t\t{4} --- Start the CNN\n\n' + bcolors.ENDC)
 
 
 if __name__ == '__main__':
@@ -117,9 +121,6 @@ if __name__ == '__main__':
 	models_code_path = os.path.join(current_path, 'models_code')
 
 	# ========== HEADER ========== #
-
-	print('\n' + bcolors.HEADER +  header + bcolors.ENDC)
-	print(bcolors.HEADER + '\t\tCNNs Aggregator Tool for Image Analysis 2\n\n' + bcolors.ENDC)
 
 	args = parser()
 
@@ -138,36 +139,31 @@ if __name__ == '__main__':
 		else:
 			workflow(main_v['mode'], model)
 
-	elif args.command == 'wizard':
-		print(bcolors.WARNING + '\t\t\tInsert EXIT to quit the program\n' + bcolors.ENDC)
+	elif args.command == 'wiz':
 
-		print(bcolors.OKCYAN + '{1} --- Mode selection' + bcolors.ENDC)
-		print(bcolors.OKCYAN + '{2} --- Dataset generation' + bcolors.ENDC)
-		print(bcolors.OKCYAN + '{3} --- Architecture selection' + bcolors.ENDC)
-		print(bcolors.OKCYAN + '{4} --- Start the CNN\n\n' + bcolors.ENDC)
+		os.system('clear')
 
 		# ========== MAIN ========== #
 
 		chaser = '_'
+		show_main_menu()
 
-		while chaser.lower() != 'EXIT':
+		while chaser.lower() != 'exit':
 
 			chaser = input(bcolors.WARNING + '\n>>> Select mode\n<<< ' + bcolors.ENDC)
 
 			if chaser == '1':
-				print(bcolors.OKCYAN + '\n----- MODE SELECTION -----\n' + bcolors.ENDC)
 				select_mode(model_saved_path)
-				print(bcolors.OKCYAN + '\n--------------------------\n' + bcolors.ENDC)
+				show_main_menu()
 
 			elif chaser == '2':
-				print(bcolors.OKCYAN + '\n----- DATASET GENERATION -----' + bcolors.ENDC)
 				select_dataset(dataset_path, main_v['mode'])
-				print(bcolors.OKCYAN + '\n------------------------------\n' + bcolors.ENDC)
+				show_main_menu()
 
 			elif chaser == '3':
-				print(bcolors.OKCYAN + '\n----- ARCHITECTURE SELECTION -----' + bcolors.ENDC)
-				select_arc(models_code_path, main_v['mode'])
-				print(bcolors.OKCYAN + '\n----------------------------------\n' + bcolors.ENDC)
+				check = select_arc(models_code_path, main_v['mode'])
+				if check:
+					show_main_menu()
 
 			elif chaser == '4':
 
@@ -213,7 +209,8 @@ if __name__ == '__main__':
 						workflow(main_v['mode'], model)
 
 					else:
-						pass
+						os.system('clear')
+						show_main_menu()
 
 				elif main_v['mode'] == 'test':
 
@@ -234,6 +231,10 @@ if __name__ == '__main__':
 
 					if check_ok.lower() == 'y' and main_v['dataset_name'] is not None:
 						workflow(main_v['mode'])
+						
+					elif check_ok.lower() == 'n':
+						os.system('clear')
+						show_main_menu()
 
 					else:
 						print('\n>>> Function not enabled.')
@@ -242,14 +243,13 @@ if __name__ == '__main__':
 				else:
 					print('\n>>> SET MODE FIRST.')
 
-			elif chaser.lower() == 'EXIT':
+			elif chaser.lower() == 'exit':
 				print('>>> Exiting the program\n')
+				os.system('clear')
 				print(quit())
 
 			else:
 				print('>>> Invalid input')
-
-			show_menu()
 
 		
 
