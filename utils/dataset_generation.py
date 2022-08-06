@@ -7,8 +7,30 @@ def select_dataset(dataset_path, mode):
 
 	global main_v
 
-	print("\n>>> If you haven't chosen the mode yet, press ENTER and come back later.")
+	header = """\n      $$$$$$$\   $$$$$$\ $$$$$$$$\  $$$$$$\   $$$$$$\  $$$$$$$$\ $$$$$$$$\             
+      $$  __$$\ $$  __$$\\__$$  __|$$  __$$\ $$  __$$\ $$  _____|\__$$  __|            
+      $$ |  $$ |$$ /  $$ |  $$ |   $$ /  $$ |$$ /  \__|$$ |         $$ |               
+      $$ |  $$ |$$$$$$$$ |  $$ |   $$$$$$$$ |\$$$$$$\  $$$$$\       $$ |               
+      $$ |  $$ |$$  __$$ |  $$ |   $$  __$$ | \____$$\ $$  __|      $$ |               
+      $$ |  $$ |$$ |  $$ |  $$ |   $$ |  $$ |$$\   $$ |$$ |         $$ |               
+      $$$$$$$  |$$ |  $$ |  $$ |   $$ |  $$ |\$$$$$$  |$$$$$$$$\    $$ |               
+      \_______/ \__|  \__|  \__|   \__|  \__| \______/ \________|   \__|               
+ $$$$$$\  $$$$$$$$\ $$\       $$$$$$$$\  $$$$$$\ $$$$$$$$\ $$$$$$\  $$$$$$\  $$\   $$\ 
+$$  __$$\ $$  _____|$$ |      $$  _____|$$  __$$\\__$$  __|\_$$  _|$$  __$$\ $$$\  $$ |
+$$ /  \__|$$ |      $$ |      $$ |      $$ /  \__|  $$ |     $$ |  $$ /  $$ |$$$$\ $$ |
+\$$$$$$\  $$$$$\    $$ |      $$$$$\    $$ |        $$ |     $$ |  $$ |  $$ |$$ $$\$$ |
+ \____$$\ $$  __|   $$ |      $$  __|   $$ |        $$ |     $$ |  $$ |  $$ |$$ \$$$$ |
+$$\   $$ |$$ |      $$ |      $$ |      $$ |  $$\   $$ |     $$ |  $$ |  $$ |$$ |\$$$ |
+\$$$$$$  |$$$$$$$$\ $$$$$$$$\ $$$$$$$$\ \$$$$$$  |  $$ |   $$$$$$\  $$$$$$  |$$ | \$$ |
+ \______/ \________|\________|\________| \______/   \__|   \______| \______/ \__|  \__|
+                                                                                       
+                                                                                       
+                                                                                      \n\n"""
 
+	os.system('clear')
+	print(bcolors.OKCYAN + header + bcolors.ENDC)
+
+	print("\n>>> If you haven't chosen the mode yet, press ENTER and come back later.")
 	print('\n>>> Select one of the availabe dataset:\n')
 
 	for item in os.listdir(dataset_path):
@@ -18,6 +40,7 @@ def select_dataset(dataset_path, mode):
 
 	if data_name == '':
 		pass
+		os.system('clear')
 
 	else:
 
@@ -56,3 +79,5 @@ def select_dataset(dataset_path, mode):
 				main_v['color_mode'] = 'grayscale'
 
 			main_v['batch_size'] = int(input('\n>>> Insert the batch size\n<<< '))
+
+		os.system('clear')
