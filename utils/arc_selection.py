@@ -45,6 +45,7 @@ def select_arc(archi_path, mode):
 
 		main_v['architecture'] = input('\n<<< ')
 		main_v['learning_rate'] = float(input('\n>>> Set the learning rate\n<<< '))
+		main_v['epochs'] = int(input('\n>>> Insert epochs for training\n<<< '))
 
 		os.system('clear')
 
