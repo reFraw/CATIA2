@@ -5,6 +5,7 @@ import tensorflow
 
 from tensorflow.keras.utils import image_dataset_from_directory
 from .main_var import main_v
+from .colors import bcolors
 
 def workflow(mode, model=None):
 
@@ -36,7 +37,8 @@ def workflow(mode, model=None):
 		print("Testing Recall: %.2f%%"%(test_scores[3] * 100))
 		print("Testing AUC: %.2f%% \n"%(test_scores[4] * 100))
 
-
+		waiter = input('>>> Press ENTER to continue...')
+		os.system('clear')
 
 
 	elif main_v['mode'] == 'train-val':
@@ -78,6 +80,9 @@ def workflow(mode, model=None):
 
 		if main_v['output_model'] is not None:
 			model.save(main_v['output_model'])
+
+		waiter = input('>>> Press ENTER to continue...')
+		os.system('clear')
 
 	elif main_v['mode'] == 'train-test':
 
@@ -123,4 +128,7 @@ def workflow(mode, model=None):
 
 		if main_v['output_model'] is not None:
 			model.save(main_v['output_model'])
+
+		waiter = input('>>> Press ENTER to continue...')
+		os.system('clear')
 
