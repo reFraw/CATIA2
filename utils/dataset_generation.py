@@ -7,25 +7,20 @@ def select_dataset(dataset_path, mode):
 
 	global main_v
 
-	header = """\n      $$$$$$$\   $$$$$$\ $$$$$$$$\  $$$$$$\   $$$$$$\  $$$$$$$$\ $$$$$$$$\             
-      $$  __$$\ $$  __$$\\__$$  __|$$  __$$\ $$  __$$\ $$  _____|\__$$  __|            
-      $$ |  $$ |$$ /  $$ |  $$ |   $$ /  $$ |$$ /  \__|$$ |         $$ |               
-      $$ |  $$ |$$$$$$$$ |  $$ |   $$$$$$$$ |\$$$$$$\  $$$$$\       $$ |               
-      $$ |  $$ |$$  __$$ |  $$ |   $$  __$$ | \____$$\ $$  __|      $$ |               
-      $$ |  $$ |$$ |  $$ |  $$ |   $$ |  $$ |$$\   $$ |$$ |         $$ |               
-      $$$$$$$  |$$ |  $$ |  $$ |   $$ |  $$ |\$$$$$$  |$$$$$$$$\    $$ |               
-      \_______/ \__|  \__|  \__|   \__|  \__| \______/ \________|   \__|               
- $$$$$$\  $$$$$$$$\ $$\       $$$$$$$$\  $$$$$$\ $$$$$$$$\ $$$$$$\  $$$$$$\  $$\   $$\ 
-$$  __$$\ $$  _____|$$ |      $$  _____|$$  __$$\\__$$  __|\_$$  _|$$  __$$\ $$$\  $$ |
-$$ /  \__|$$ |      $$ |      $$ |      $$ /  \__|  $$ |     $$ |  $$ /  $$ |$$$$\ $$ |
-\$$$$$$\  $$$$$\    $$ |      $$$$$\    $$ |        $$ |     $$ |  $$ |  $$ |$$ $$\$$ |
- \____$$\ $$  __|   $$ |      $$  __|   $$ |        $$ |     $$ |  $$ |  $$ |$$ \$$$$ |
-$$\   $$ |$$ |      $$ |      $$ |      $$ |  $$\   $$ |     $$ |  $$ |  $$ |$$ |\$$$ |
-\$$$$$$  |$$$$$$$$\ $$$$$$$$\ $$$$$$$$\ \$$$$$$  |  $$ |   $$$$$$\  $$$$$$  |$$ | \$$ |
- \______/ \________|\________|\________| \______/   \__|   \______| \______/ \__|  \__|
-                                                                                       
-                                                                                       
-                                                                                      \n\n"""
+	header = """\n     ______  _______ _______ _______  ______ _______ _______       
+    (______)(_______|_______|_______)/ _____|_______|_______)      
+     _     _ _______    _    _______( (____  _____      _          
+    | |   | |  ___  |  | |  |  ___  |\____ \|  ___)    | |         
+    | |__/ /| |   | |  | |  | |   | |_____) ) |_____   | |         
+    |_____/ |_|   |_|  |_|  |_|   |_(______/|_______)  |_|         
+                                                                   
+  ______ _______ _       _______ _______ _______ _ _______ _______ 
+ / _____|_______|_)     (_______|_______|_______) (_______|_______)
+( (____  _____   _       _____   _          _   | |_     _ _     _ 
+ \____ \|  ___) | |     |  ___) | |        | |  | | |   | | |   | |
+ _____) ) |_____| |_____| |_____| |_____   | |  | | |___| | |   | |
+(______/|_______)_______)_______)\______)  |_|  |_|\_____/|_|   |_|
+                                                                   \n\n"""
 
 	os.system('clear')
 	print(bcolors.OKCYAN + header + bcolors.ENDC)
@@ -49,8 +44,15 @@ $$\   $$ |$$ |      $$ |      $$ |      $$ |  $$\   $$ |     $$ |  $$ |  $$ |$$ 
 		data_path = os.path.join(dataset_path, data_name)
 		train_path = os.path.join(data_path, 'training')
 		test_path = os.path.join(data_path, 'test')
+		try:
+			main_v['num_classes'] = len(os.listdir(train_path))
+		except:
+			print('\n>>> This dataset has no classes. Please check the folder.')
+			main_v['dataset_name'] = None
+			waiter = input('\n>>> Press ENTER to continue...')
+			os.system('clear')
+			return True
 
-		main_v['num_classes'] = len(os.listdir(train_path))
 		main_v['train_path'] = train_path
 		main_v['test_path'] = test_path
 
@@ -60,16 +62,16 @@ $$\   $$ |$$ |      $$ |      $$ |      $$ |  $$\   $$ |     $$ |  $$ |  $$ |$$ 
 
 			try:
 				image_size = int(input_size.split('x')[0])
-				image_channels = int(input_size.split('x')[1])
+				main_v['channels'] = int(input_size.split('x')[1])
 
-				if image_channels == 1:
+				if main_v['channels'] == 1:
 					main_v['color_mode'] = 'grayscale'
-				elif image_channels == 3:
+				elif main_v['channels'] == 3:
 					main_v['color_mode'] = 'rgb'
-				elif image_channels == 4:
+				elif main_v['channels'] == 4:
 					main_v['color_mode'] = 'rgba'
 
-				main_v['input_net'] = (image_size, image_size, image_channels)
+				main_v['input_net'] = (image_size, image_size, main_v['channels'])
 				main_v['image_size'] = (image_size, image_size)
 
 			except:
@@ -79,5 +81,7 @@ $$\   $$ |$$ |      $$ |      $$ |      $$ |  $$\   $$ |     $$ |  $$ |  $$ |$$ 
 				main_v['color_mode'] = 'grayscale'
 
 			main_v['batch_size'] = int(input('\n>>> Insert the batch size\n<<< '))
+
+			waiter = input('\n>>> Press ENTER to continue...')	
 
 		os.system('clear')
