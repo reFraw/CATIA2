@@ -6,27 +6,20 @@ def select_mode(current_path):
 
 	global main_v
 
-	header = """\n
-                        $$\      $$\  $$$$$$\  $$$$$$$\  $$$$$$$$\                     
-                        $$$\    $$$ |$$  __$$\ $$  __$$\ $$  _____|                    
-                        $$$$\  $$$$ |$$ /  $$ |$$ |  $$ |$$ |                          
-                        $$\$$\$$ $$ |$$ |  $$ |$$ |  $$ |$$$$$\                        
-                        $$ \$$$  $$ |$$ |  $$ |$$ |  $$ |$$  __|                       
-                        $$ |\$  /$$ |$$ |  $$ |$$ |  $$ |$$ |                          
-                        $$ | \_/ $$ | $$$$$$  |$$$$$$$  |$$$$$$$$\                     
-                        \__|     \__| \______/ \_______/ \________|                    
- $$$$$$\  $$$$$$$$\ $$\       $$$$$$$$\  $$$$$$\ $$$$$$$$\ $$$$$$\  $$$$$$\  $$\   $$\ 
-$$  __$$\ $$  _____|$$ |      $$  _____|$$  __$$\\__$$  __|\_$$  _|$$  __$$\ $$$\  $$ |
-$$ /  \__|$$ |      $$ |      $$ |      $$ /  \__|  $$ |     $$ |  $$ /  $$ |$$$$\ $$ |
-\$$$$$$\  $$$$$\    $$ |      $$$$$\    $$ |        $$ |     $$ |  $$ |  $$ |$$ $$\$$ |
- \____$$\ $$  __|   $$ |      $$  __|   $$ |        $$ |     $$ |  $$ |  $$ |$$ \$$$$ |
-$$\   $$ |$$ |      $$ |      $$ |      $$ |  $$\   $$ |     $$ |  $$ |  $$ |$$ |\$$$ |
-\$$$$$$  |$$$$$$$$\ $$$$$$$$\ $$$$$$$$\ \$$$$$$  |  $$ |   $$$$$$\  $$$$$$  |$$ | \$$ |
- \______/ \________|\________|\________| \______/   \__|   \______| \______/ \__|  \__|
-                                                                                       
-                                                                                       
-                                                                                       
-\n\n"""
+	header = """\n               _______ _______ ______  _______                     
+              (_______|_______|______)(_______)                    
+               _  _  _ _     _ _     _ _____                       
+              | ||_|| | |   | | |   | |  ___)                      
+              | |   | | |___| | |__/ /| |_____                     
+              |_|   |_|\_____/|_____/ |_______)                    
+                                                                   
+  ______ _______ _       _______ _______ _______ _ _______ _______ 
+ / _____|_______|_)     (_______|_______|_______) (_______|_______)
+( (____  _____   _       _____   _          _   | |_     _ _     _ 
+ \____ \|  ___) | |     |  ___) | |        | |  | | |   | | |   | |
+ _____) ) |_____| |_____| |_____| |_____   | |  | | |___| | |   | |
+(______/|_______)_______)_______)\______)  |_|  |_|\_____/|_|   |_|
+                                                                   \n\n"""
 
 	os.system('clear')
 	print(bcolors.OKCYAN + header + bcolors.ENDC)
@@ -63,27 +56,26 @@ $$\   $$ |$$ |      $$ |      $$ |      $$ |  $$\   $$ |     $$ |  $$ |  $$ |$$ 
 			for item in os.listdir(current_path):
 				print(bcolors.OKGREEN + '\t' + item + bcolors.ENDC)
 
-			input_model = input('\n<<< ')
+			main_v['input_model_name'] = input('\n<<< ')
 
 			try:
-				index = input_model.index('_i')
-				input_size = input_model[index + 2 :]
-
+				index = main_v['input_model_name'].index('_i')
+				input_size = main_v['input_model_name'][index + 2 :]
 				image_size = int(input_size.split('x')[0])
-				channels = int(input_size.split('x')[1])
+				main_v['channels'] = int(input_size.split('x')[1])
 
-				if channels == 1:
+				if main_v['channels'] == 1:
 					main_v['color_mode'] = 'grayscale'
-				elif channels == 3:
+				elif main_v['channels'] == 3:
 					main_v['color_mode'] = 'rgb'
-				elif channels == 4:
+				elif main_v['channels'] == 4:
 					main_v['color_mode'] = 'rgba'
 
 				main_v['batch_size'] = 32
-				main_v['input_net'] = (image_size, image_size, channels)
+				main_v['input_net'] = (image_size, image_size, main_v['channels'])
 				main_v['image_size'] = (image_size, image_size)
 
-				input_model = os.path.join(current_path, input_model)
+				input_model = os.path.join(current_path, main_v['input_model_name'])
 				main_v['input_model'] = input_model
 
 			except:
@@ -101,5 +93,7 @@ $$\   $$ |$$ |      $$ |      $$ |      $$ |  $$\   $$ |     $$ |  $$ |  $$ |$$ 
 		if main_v['val_split'] <= 0 or main_v['val_split'] >= 1:
 			print('\n>>> Invalid input. Set default value.')
 			main_v['val_split'] = 0.2
+
+	waiter = input('\n>>> Press ENTER to continue...')
 
 	os.system('clear')
