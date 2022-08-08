@@ -18,5 +18,3 @@ To see the parameters to be entered in the one-line mode use 'python CATIA2.py o
 
 ### Notes
 1) The inspiration for the writing of this project comes from the TAMI tool (https://github.com/Djack1010/tami) used during my internship and thesis work.
-
-2) The SAMPLE model in 'models_saved' folder was trained on the AD000 dataset.
