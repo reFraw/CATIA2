@@ -13,7 +13,7 @@ def workflow(mode, model=None):
 
 	if main_v['mode'] == 'test':
 
-		input_model = tensorflow.keras.models.load_model(main_v['input_model'])
+		model = tensorflow.keras.models.load_model(main_v['input_model'])
 
 		print('\n ------- TEST DATA -------')
 
@@ -29,8 +29,8 @@ def workflow(mode, model=None):
 
 		print('\n\n>>> Starting testing phase.\n')
 
-		test_scores = input_model.evaluate(test_data)
-
+		test_scores = model.evaluate(test_data)
+	
 		print("\nTesting Loss: %.2f%%"%(test_scores[0] * 100))
 		print("Testing Accuracy: %.2f%%"%(test_scores[1] * 100))
 		print("Testing Precision: %.2f%%"%(test_scores[2] * 100))
@@ -129,6 +129,7 @@ def workflow(mode, model=None):
 		if main_v['output_model'] is not None:
 			model.save(main_v['output_model'])
 
-		waiter = input('>>> Press ENTER to continue...')
+		waiter = input('\n>>> Press ENTER to continue...')
 		os.system('clear')
 
+	
