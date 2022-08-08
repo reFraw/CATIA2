@@ -6,6 +6,7 @@ from tensorflow.keras.optimizers import Adam
 def FCNN(input_net, num_classes, learning_rate):
 
 	model = models.Sequential([
+		layers.Rescaling(scale=1./255)
 		layers.Conv2D(64, (3, 3), input_shape=input_net),
 		layers.LeakyReLU(alpha=0.2),
 		layers.AveragePooling2D((2, 2)),
