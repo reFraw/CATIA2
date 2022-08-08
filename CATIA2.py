@@ -15,6 +15,7 @@ from utils.start_flow import workflow
 
 from models_code.FCNN.FCNN import FCNN
 from models_code.FAB_CONVNET.FAB_CONVNET import FAB_CONVNET
+from models_code.RAVNET.RAVNET import RAVNET
 
 def parser():
 
@@ -71,16 +72,16 @@ def check_args(args):
 
 	if main_v['mode'] != 'test':
 		imgSize = int(args.image_size.split('x')[0])
-		channels = int(args.image_size.split('x')[1])
+		main_v['channels'] = int(args.image_size.split('x')[1])
 
-		if channels == 1:
+		if main_v['channels'] == 1:
 			main_v['color_mode'] = 'grayscale'
-		elif channels == 3:
+		elif main_v['channels'] == 3:
 			main_v['color_mode'] = 'rgb'
-		elif channels == 4:
+		elif main_v['channels'] == 4:
 			main_v['color_mode'] = 'rgba'
 
-		main_v['input_net'] = (imgSize, imgSize, channels)
+		main_v['input_net'] = (imgSize, imgSize, main_v['channels'])
 		main_v['image_size'] = main_v['input_net'][0:2]
 
 	else:
@@ -102,37 +103,91 @@ def check_args(args):
 def show_main_menu():
 
 	print('\n' + bcolors.HEADER +  header + bcolors.ENDC)
-	print(bcolors.HEADER + '\t\tCNNs Aggregator Tool for Image Analysis 2\n\n' + bcolors.ENDC)
+	print(bcolors.HEADER + '\t\t    CNNs Aggregator Tool for Image Analysis 2\n' + bcolors.ENDC)
+	print(bcolors.HEADER + '\t\t\t    GitHub.com/reFraw/CATIA2\n\n' + bcolors.ENDC)
 
-	print(bcolors.WARNING + '\t\t}---[⦿] Insert EXIT to quit the program [⦿]---{\n' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t\t   MENU\n' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t{1}--- Mode selection' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t{2}--- Dataset selection' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t{3}--- Architecture selection' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t{4}--- Check parameters' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t{5}--- Start CNN' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t{00}-- Exit program\n\n' + bcolors.ENDC)
 
-	print(bcolors.OKCYAN + '\t\t\t{1}--- Mode selection' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '\t\t\t{2}--- Dataset generation' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '\t\t\t{3}--- Architecture selection' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '\t\t\t{4}--- Check parameters' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '\t\t\t{5}--- Start the CNN\n\n' + bcolors.ENDC)
+def show_parameters():
 
+	global main_v
+
+	if main_v['mode'] == 'test':
+		print(bcolors.OKGREEN + '\n------- PARAMETERS ------- \n' + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Mode', main_v['mode']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Dataset', main_v['dataset_name']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Input model', main_v['input_model_name']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + '\n-------------------------- \n' + bcolors.ENDC)
+
+	elif main_v['mode'] == 'train-test':
+		print(bcolors.OKGREEN + '\n------- PARAMETERS ------- \n' + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Mode', main_v['mode']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Dataset', main_v['dataset_name']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Image size', main_v['image_size']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('channels', main_v['channels']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Color mode', main_v['color_mode']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Architecture', main_v['architecture']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Learning rate', main_v['learning_rate']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Batch size', main_v['batch_size']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Epochs', main_v['epochs']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + '\n-------------------------- \n' + bcolors.ENDC)
+
+	elif main_v['mode'] == 'train-val':
+		print(bcolors.OKGREEN + '\n------- PARAMETERS ------- \n' + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Mode', main_v['mode']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Validation split', main_v['val_split']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Dataset', main_v['dataset_name']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Image size', main_v['image_size']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('channels', main_v['channels']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Color mode', main_v['color_mode']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Architecture', main_v['architecture']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Learning rate', main_v['learning_rate']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Batch size', main_v['batch_size']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Epochs', main_v['epochs']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + '\n-------------------------- \n' + bcolors.ENDC)
+
+	else:
+		print(bcolors.OKGREEN + '\n------- PARAMETERS ------- \n' + bcolors.ENDC)
+
+		for item in main_v:
+			if item.startswith('input') or item.startswith('output') or item.startswith('train') or item.startswith('test'):
+				pass
+			else:
+				print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format(item, main_v[item]) + bcolors.ENDC)
+
+		print(bcolors.OKGREEN + '\n-------------------------- \n' + bcolors.ENDC)
+
+
+# ========== MAIN ========== #
 
 if __name__ == '__main__':
-
 	current_path = os.getcwd()
-
 	dataset_path = os.path.join(current_path, 'DATASETS')
 	model_saved_path = os.path.join(current_path, 'models_saved')
 	models_code_path = os.path.join(current_path, 'models_code')
 
-	# ========== HEADER ========== #
-
 	args = parser()
 
+	### ============================= ###
+	### ======= ONE-LINE MODE ======= ###
+	### ============================= ###
+
 	if args.command == 'one-line':
-		
 		check_args(args)
+
+		# ======= ARCHITECTURE OL MODE ======= #
 
 		if main_v['architecture'] == 'FCNN':
 			model = FCNN(main_v['input_net'], main_v['num_classes'], main_v['learning_rate'])
-
 		elif main_v['architecture'] == 'FAB_CONVNET':
+			model = FAB_CONVNET(main_v['input_net'], main_v['num_classes'], main_v['learning_rate'])
+		elif main_v['architecture'] == 'RAVNET':
 			model = FAB_CONVNET(main_v['input_net'], main_v['num_classes'], main_v['learning_rate'])
 
 		if main_v['mode'] == 'test':
@@ -140,17 +195,17 @@ if __name__ == '__main__':
 		else:
 			workflow(main_v['mode'], model)
 
+	### =========================== ###
+	### ======= WIZARD MODE ======= ###
+	### =========================== ###
+
 	elif args.command == 'wiz':
-
 		os.system('clear')
-
-		# ========== MAIN ========== #
 
 		chaser = '_'
 		show_main_menu()
 
-		while chaser.lower() != 'exit':
-
+		while True:
 			chaser = input(bcolors.WARNING + '\nCATIA2~# ' + bcolors.ENDC)
 
 			if chaser == '1':
@@ -167,58 +222,61 @@ if __name__ == '__main__':
 					show_main_menu()
 
 			elif chaser == '4':
-				print('\n>>> Parameters: \n')
-
-				for item in main_v:
-					if item.startswith('train') or item.startswith('test') or item.startswith('output'):
-						pass
-					else:
-						print(bcolors.OKGREEN + '{} --> {}\n'.format(item, main_v[item]) + bcolors.ENDC)
+				show_parameters()
 
 			elif chaser == '5':
+				try:
+					if main_v['mode'] == 'train-val' or main_v['mode'] == 'train-test':
+						main_v['input_model'] = None
+						save_check = '_'
 
-				if main_v['mode'] == 'train-val' or main_v['mode'] == 'train-test':
+						while save_check.lower() != 'y' and save_check.lower() != 'n':
+							save_check = input('\n>>> Save the model? [y/n]\n<<< ')
 
-					main_v['input_model'] = None
+						if save_check == 'y':
+							output_model = input('\n>>> Insert model name\n<<< ')
+							main_v['output_model_name'] = output_model + '_m' + main_v['architecture'] + '_i' + str(main_v['input_net'][0]) + 'x' + str(main_v['input_net'][2])
+							output_model = os.path.join(model_saved_path, main_v['output_model_name'])
+							main_v['output_model'] = output_model
 
-					save_check = '_'
+						# ======= ARCHITECTURE WIZ MODE ======= #
 
-					while save_check.lower() != 'y' and save_check.lower() != 'n':
-						save_check = input('\n>>> Save the model? [y/n]\n<<< ')
-
-					if save_check == 'y':
-
-						output_model = input('\n>>> Insert model name\n<<< ')
-						output_model = output_model + '_m' + main_v['architecture'] + '_i' + str(main_v['input_net'][0]) + 'x' + str(main_v['input_net'][2])
-						output_model = os.path.join(model_saved_path, output_model)
-						main_v['output_model'] = output_model
-
-					if main_v['architecture'] == 'FCNN':
+						if main_v['architecture'] == 'FCNN':
 							model = FCNN(main_v['input_net'], main_v['num_classes'], main_v['learning_rate'])
-
-					elif main_v['architecture'] == 'FAB_CONVNET':
+						elif main_v['architecture'] == 'FAB_CONVNET':
 							model = FAB_CONVNET(main_v['input_net'], main_v['num_classes'], main_v['learning_rate'])
+						elif main_v['architecture'] == 'RAVNET':
+							model = RAVNET(main_v['input_net'], main_v['num_classes'], main_v['learning_rate'])
 
-					workflow(main_v['mode'], model)
-					show_main_menu()
+						try:
+							workflow(main_v['mode'], model)
+							show_main_menu()
+						except:
+							print('\n>>> Error occured. Please check parameters.')
 
-				elif main_v['mode'] == 'test':
+					elif main_v['mode'] == 'test':
+						main_v['output_model'] = None
+						main_v['output_model_name'] = None
 
-					main_v['output_model'] = None
-
-					if main_v['dataset_name'] is not None:
-						workflow(main_v['mode'])
-						show_main_menu()
-
+						if main_v['dataset_name'] is not None:
+							try:
+								workflow(main_v['mode'])
+								show_main_menu()
+							except Exception as e:
+								print('\n>>> Error occured. Please check parameters.')
+						else:
+							print('\n>>> Function not enabled.')
+							pass
 					else:
-						print('\n>>> Function not enabled.')
-						pass
+						print('\n>>> SET MODE FIRST.')
+				except Exception as e:
+					print('\n>>> Error occured.')
 
-				else:
-					print('\n>>> SET MODE FIRST.')
+				for item in main_v:
+					main_v[item] = None
 
-			elif chaser.lower() == 'exit':
-				print('>>> Exiting the program\n')
+			elif chaser.lower() == '00':
+				waiter = input('\n>>> Press any key to close the program...\n')
 				os.system('clear')
 				print(quit())
 
