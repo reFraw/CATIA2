@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import os
 
 from .main_var import main_v
