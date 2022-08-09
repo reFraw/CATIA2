@@ -17,6 +17,12 @@ main_v = {'mode' : None,
 			'learning_rate' : None,
 			'epochs' : None}
 
+path = {'current_path' : None,
+		'report_path' : None,
+		'plot_path' : None,
+		'model_saved_path' : None,
+		'models_code_path' : None}
+
 train_data = None
 test_data = None
 val_data = None
