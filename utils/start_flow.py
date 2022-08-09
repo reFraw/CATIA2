@@ -4,12 +4,20 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow
 
 from tensorflow.keras.utils import image_dataset_from_directory
+from datetime import datetime
+
 from .main_var import main_v
 from .colors import bcolors
+
+from .report import save_report
+from .report import plot_metrics
 
 def workflow(mode, model=None):
 
 	global main_v
+
+	now = datetime.now()
+	dt_string = now.strftime('_%d%m%Y-%H%M%S')
 
 	if main_v['mode'] == 'test':
 
@@ -36,6 +44,8 @@ def workflow(mode, model=None):
 		print("Testing Precision: %.2f%%"%(test_scores[2] * 100))
 		print("Testing Recall: %.2f%%"%(test_scores[3] * 100))
 		print("Testing AUC: %.2f%% \n"%(test_scores[4] * 100))
+
+		save_report(test_scores, dt_string)
 
 		waiter = input('>>> Press ENTER to continue...')
 		os.system('clear')
@@ -81,7 +91,10 @@ def workflow(mode, model=None):
 		if main_v['output_model'] is not None:
 			model.save(main_v['output_model'])
 
-		waiter = input('>>> Press ENTER to continue...')
+		save_report(history, dt_string)
+		plot_metrics(history, dt_string)
+
+		waiter = input('\n>>> Press ENTER to continue...')
 		os.system('clear')
 
 	elif main_v['mode'] == 'train-test':
@@ -128,6 +141,9 @@ def workflow(mode, model=None):
 
 		if main_v['output_model'] is not None:
 			model.save(main_v['output_model'])
+
+		save_report(history, dt_string, test_scores)
+		plot_metrics(history, dt_string)
 
 		waiter = input('\n>>> Press ENTER to continue...')
 		os.system('clear')
