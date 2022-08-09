@@ -6,6 +6,7 @@ import tensorflow
 import argparse
 
 from utils.main_var import main_v
+from utils.main_var import path
 from utils.colors import bcolors
 from utils.colors import header
 from utils.mode_selection import select_mode
@@ -45,6 +46,19 @@ def parser():
 	args = pars.parse_args()
 
 	return args
+
+def create_dirs():
+	global path
+
+	if not os.path.exists(path['report_path']):
+		os.makedirs(path['report_path'])
+
+	if not os.path.exists(path['plot_path']):
+		os.makedirs(path['plot_path'])
+
+	if not os.path.exists(path['model_saved_path']):
+		os.makedirs(path['model_saved_path'])
+
 
 def check_args(args):
 
@@ -100,19 +114,24 @@ def check_args(args):
 		main_v['input_net'] = (imgSize, imgSize, channels)
 		main_v['image_size'] = main_v['input_net'][0:2]
 
+
 def show_main_menu():
 
-	print('\n' + bcolors.HEADER +  header + bcolors.ENDC)
-	print(bcolors.HEADER + '\t\t    CNNs Aggregator Tool for Image Analysis 2\n' + bcolors.ENDC)
-	print(bcolors.HEADER + '\t\t\t    GitHub.com/reFraw/CATIA2\n\n' + bcolors.ENDC)
+	name = '''\n\n\n ＣＮＮｓ ＡＧＧＲＥＧＡＴＯＲ ＴＯＯＬ ＦＯＲ ＩＭＡＧＥ ＡＮＡＬＹＳＩＳ ２'''
+	repo = '\t\t  ＧｉｔＨｕｂ.ｃｏｍ/ｒｅＦｒａｗ/ＣＡＴＩＡ２'
 
-	print(bcolors.OKCYAN + '\t\t   MENU\n' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '\t{1}--- Mode selection' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '\t{2}--- Dataset selection' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '\t{3}--- Architecture selection' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '\t{4}--- Check parameters' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '\t{5}--- Start CNN' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '\t{00}-- Exit program\n\n' + bcolors.ENDC)
+	print(bcolors.HEADER + name + bcolors.ENDC)
+	print(bcolors.HEADER +  header + bcolors.ENDC)
+	print('\n' + bcolors.HEADER + repo + bcolors.ENDC)
+
+	print(bcolors.OKCYAN + '\n\n\t   MENU\n' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '{1}--- Mode selection' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '{2}--- Dataset selection' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '{3}--- Architecture selection' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '{4}--- Check parameters' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '{5}--- Start CNN' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '{00}-- Exit program\n\n' + bcolors.ENDC)
+
 
 def show_parameters():
 
@@ -167,10 +186,18 @@ def show_parameters():
 # ========== MAIN ========== #
 
 if __name__ == '__main__':
+
 	current_path = os.getcwd()
-	dataset_path = os.path.join(current_path, 'DATASETS')
+
 	model_saved_path = os.path.join(current_path, 'models_saved')
 	models_code_path = os.path.join(current_path, 'models_code')
+	dataset_path = os.path.join(current_path, 'DATASETS')
+
+	path['report_path'] = os.path.join(current_path, 'results', 'report')
+	path['plot_path'] = os.path.join(current_path, 'results', 'plot')
+	path['model_saved_path'] = model_saved_path
+	
+	create_dirs()
 
 	args = parser()
 
@@ -251,7 +278,8 @@ if __name__ == '__main__':
 						try:
 							workflow(main_v['mode'], model)
 							show_main_menu()
-						except:
+						except Exception as e:
+							print(e)
 							print('\n>>> Error occured. Please check parameters.')
 
 					elif main_v['mode'] == 'test':
@@ -263,6 +291,7 @@ if __name__ == '__main__':
 								workflow(main_v['mode'])
 								show_main_menu()
 							except Exception as e:
+								print(e)
 								print('\n>>> Error occured. Please check parameters.')
 						else:
 							print('\n>>> Function not enabled.')
@@ -270,13 +299,15 @@ if __name__ == '__main__':
 					else:
 						print('\n>>> SET MODE FIRST.')
 				except Exception as e:
-					print('\n>>> Error occured.')
+					print('\n>>> Error occured.\n\n')
+					print(e)
+					print('\n\n')
 
 				for item in main_v:
 					main_v[item] = None
 
 			elif chaser.lower() == '00':
-				waiter = input('\n>>> Press any key to close the program...\n')
+				waiter = input('\n>>> Press any key to close the program...')
 				os.system('clear')
 				print(quit())
 
