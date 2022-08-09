@@ -1,6 +1,5 @@
 # CATIA2
- CNNs Aggregator Tool for Image Analysis 2
- 
+
 <p align="center" width="100%">
    <img width="80%" src="https://raw.githubusercontent.com/reFraw/CATIA2/main/images/CATIA2.png">
 </p>
