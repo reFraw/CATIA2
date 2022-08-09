@@ -2,6 +2,7 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 import tensorflow
+import platform
 
 from tensorflow.keras.utils import image_dataset_from_directory
 from datetime import datetime
@@ -12,7 +13,20 @@ from .colors import bcolors
 from .report import save_report
 from .report import plot_metrics
 
+def check_system():
+
+	sys = platform.system()
+
+	return sys
+
 def workflow(mode, model=None):
+
+	sys = check_system()
+
+	if sys == 'Windows':
+		clear = 'cls'
+	elif sys == 'Linux':
+		clear = 'clear'
 
 	global main_v
 
@@ -48,7 +62,7 @@ def workflow(mode, model=None):
 		save_report(test_scores, dt_string)
 
 		waiter = input('>>> Press ENTER to continue...')
-		os.system('clear')
+		os.system(clear)
 
 
 	elif main_v['mode'] == 'train-val':
@@ -95,7 +109,7 @@ def workflow(mode, model=None):
 		plot_metrics(history, dt_string)
 
 		waiter = input('\n>>> Press ENTER to continue...')
-		os.system('clear')
+		os.system(clear)
 
 	elif main_v['mode'] == 'train-test':
 
@@ -146,6 +160,6 @@ def workflow(mode, model=None):
 		plot_metrics(history, dt_string)
 
 		waiter = input('\n>>> Press ENTER to continue...')
-		os.system('clear')
+		os.system(clear)
 
 	
