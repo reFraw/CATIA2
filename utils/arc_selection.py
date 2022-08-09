@@ -3,8 +3,22 @@ from .colors import bcolors
 import time
 
 import os
+import platform
+
+def check_system():
+
+	sys = platform.system()
+
+	return sys
 
 def select_arc(archi_path, mode):
+
+	sys = check_system()
+
+	if system == 'Windows':
+		clear = 'cls'
+	elif sys == 'Linux':
+		clear = 'clear'
 
 	global main_v
 
@@ -30,7 +44,7 @@ def select_arc(archi_path, mode):
 
 	else:
 
-		os.system('clear')
+		os.system(clear)
 		print(bcolors.OKCYAN + header + bcolors.ENDC)
 
 		print('\n>>> Select one of the available architecture: \n')
@@ -57,6 +71,6 @@ def select_arc(archi_path, mode):
 
 		waiter = input('\n>>> Press ENTER to continue...')
 
-		os.system('clear')
+		os.system(clear)
 
 		return True
