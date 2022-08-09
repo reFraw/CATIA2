@@ -4,6 +4,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 import tensorflow
 import argparse
+import platform
 
 from utils.main_var import main_v
 from utils.main_var import path
@@ -183,9 +184,22 @@ def show_parameters():
 		print(bcolors.OKGREEN + '\n-------------------------- \n' + bcolors.ENDC)
 
 
+def check_system():
+
+	sys = platform.system()
+
+	return sys
+
 # ========== MAIN ========== #
 
 if __name__ == '__main__':
+
+	sys = check_system()
+
+	if sys == 'Windows':
+		clear = 'cls'
+	elif sys == 'Linux':
+		clear = 'clear'
 
 	current_path = os.getcwd()
 
@@ -227,7 +241,7 @@ if __name__ == '__main__':
 	### =========================== ###
 
 	elif args.command == 'wiz':
-		os.system('clear')
+		os.system(clear)
 
 		chaser = '_'
 		show_main_menu()
@@ -279,7 +293,7 @@ if __name__ == '__main__':
 							workflow(main_v['mode'], model)
 							show_main_menu()
 						except Exception as e:
-							print(e)
+							print('\n\n>>> Error : ', e)
 							print('\n>>> Error occured. Please check parameters.')
 
 					elif main_v['mode'] == 'test':
@@ -308,7 +322,7 @@ if __name__ == '__main__':
 
 			elif chaser.lower() == '00':
 				waiter = input('\n>>> Press any key to close the program...')
-				os.system('clear')
+				os.system(clear)
 				print(quit())
 
 			else:
