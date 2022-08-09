@@ -1,7 +1,7 @@
 # CATIA2
  CNNs Aggregator Tool for Image Analysis 2
  
- ![Logo](https://raw.githubusercontent.com/reFraw/CATIA2/main/images/Logo.png)
+ ![Logo](https://raw.githubusercontent.com/reFraw/CATIA2/main/images/CATIA.png)
 ### Description
 This tool allows you to use convolutional neural networks for image analysis in a guided way and therefore suitable for beginners (like me).
 Actually this project was born as a training tool for my programming skills.
