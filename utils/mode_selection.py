@@ -1,8 +1,22 @@
 import os
+import platform
+
 from .colors import bcolors
 from .main_var import main_v
 
+def check_system():
+
+	sys = platform.system()
+
+	return sys
+
 def select_mode(current_path):
+
+	sys = check_system()
+	if sys == 'Windows':
+		clear = 'cls'
+	elif sys == 'Linux':
+		clear = 'clear'
 
 	global main_v
 
@@ -21,7 +35,7 @@ def select_mode(current_path):
 (______/|_______)_______)_______)\______)  |_|  |_|\_____/|_|   |_|
                                                                    \n\n"""
 
-	os.system('clear')
+	os.system(clear)
 	print(bcolors.OKCYAN + header + bcolors.ENDC)
 
 	mode = input('>>> Insert mode between [TRAIN-VAL], [train-test], [test].\n<<< ')
@@ -96,4 +110,4 @@ def select_mode(current_path):
 
 	waiter = input('\n>>> Press ENTER to continue...')
 
-	os.system('clear')
+	os.system(clear)
