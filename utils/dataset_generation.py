@@ -2,8 +2,21 @@ from .main_var import main_v
 from .colors import bcolors
 
 import os
+import platform
 
-def select_dataset(dataset_path, mode):	
+def check_system():
+
+	sys = platform.system()
+
+	return sys
+
+def select_dataset(dataset_path, mode):
+
+	sys = check_system()
+	if sys == 'Windows':
+		clear = 'cls'
+	elif sys == 'Linux':
+		clear = 'clear'	
 
 	global main_v
 
@@ -22,7 +35,7 @@ def select_dataset(dataset_path, mode):
 (______/|_______)_______)_______)\______)  |_|  |_|\_____/|_|   |_|
                                                                    \n\n"""
 
-	os.system('clear')
+	os.system(clear)
 	print(bcolors.OKCYAN + header + bcolors.ENDC)
 
 	print("\n>>> If you haven't chosen the mode yet, press ENTER and come back later.")
@@ -35,7 +48,7 @@ def select_dataset(dataset_path, mode):
 
 	if data_name == '':
 		pass
-		os.system('clear')
+		os.system(clear)
 
 	else:
 
@@ -84,4 +97,4 @@ def select_dataset(dataset_path, mode):
 
 			waiter = input('\n>>> Press ENTER to continue...')	
 
-		os.system('clear')
+		os.system(clear)
