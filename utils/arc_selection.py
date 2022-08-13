@@ -15,7 +15,7 @@ def select_arc(archi_path, mode):
 
 	sys = check_system()
 
-	if system == 'Windows':
+	if sys == 'Windows':
 		clear = 'cls'
 	elif sys == 'Linux':
 		clear = 'clear'
