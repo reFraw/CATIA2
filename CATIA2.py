@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -7,6 +9,7 @@ import argparse
 import platform
 
 from utils.main_var import main_v
+from utils.main_var import multi_v
 from utils.main_var import path
 from utils.colors import bcolors
 from utils.colors import header
@@ -14,6 +17,8 @@ from utils.mode_selection import select_mode
 from utils.dataset_generation import select_dataset
 from utils.arc_selection import select_arc
 from utils.start_flow import workflow
+from utils.multitrain import multi_train
+from utils.multitrain import start_multitrain
 
 from models_code.FCNN.FCNN import FCNN
 from models_code.FAB_CONVNET.FAB_CONVNET import FAB_CONVNET
@@ -41,9 +46,6 @@ def parser():
 	usage.add_argument('-m', '--mode', type=str, required=False, choices=['train-val', 'test', 'train-test'],
 		help='One of the avaliable mode | train-val | train-test | test | -- Default value train-val.', default='train-val')
 
-	# ======= Wizard mode ======= #
-	nousage = subparser.add_parser('wiz', help='Enable the wizard mode.')
-
 	args = pars.parse_args()
 
 	return args
@@ -59,6 +61,9 @@ def create_dirs():
 
 	if not os.path.exists(path['model_saved_path']):
 		os.makedirs(path['model_saved_path'])
+
+	if not os.path.exists(path['dataset_path']):
+		os.makedirs(path['dataset_path'])
 
 
 def check_args(args):
@@ -129,8 +134,13 @@ def show_main_menu():
 	print(bcolors.OKCYAN + '{1}--- Mode selection' + bcolors.ENDC)
 	print(bcolors.OKCYAN + '{2}--- Dataset selection' + bcolors.ENDC)
 	print(bcolors.OKCYAN + '{3}--- Architecture selection' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '{4}--- Check parameters' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '{5}--- Start CNN' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '{4}--- Start CNN\n' + bcolors.ENDC)
+
+	print(bcolors.OKCYAN + '{77}-- Set Multi-Train mode' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '{99}-- Start Multi-Train mode\n' + bcolors.ENDC)
+
+	print(bcolors.OKCYAN + '{P}--- Check parameters\n' + bcolors.ENDC)
+
 	print(bcolors.OKCYAN + '{00}-- Exit program\n\n' + bcolors.ENDC)
 
 
@@ -172,6 +182,21 @@ def show_parameters():
 		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Epochs', main_v['epochs']) + bcolors.ENDC)
 		print(bcolors.OKGREEN + '\n-------------------------- \n' + bcolors.ENDC)
 
+	elif main_v['mode'] == 'multitrain':
+		print(bcolors.OKGREEN + '\n------- PARAMETERS ------- \n' + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Mode', main_v['mode']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Validation split', multi_v['val_split']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Dataset', main_v['dataset_name']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('No of classes', main_v['num_classes']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Image size', multi_v['image_size']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('channels', multi_v['channels']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Color mode', multi_v['color_mode']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Architecture', multi_v['architecture']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Learning rate', multi_v['l_rate']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Batch size', multi_v['batch_size']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + 'Name : {} | Value : {}'.format('Epochs', multi_v['epochs']) + bcolors.ENDC)
+		print(bcolors.OKGREEN + '\n-------------------------- \n' + bcolors.ENDC)
+
 	else:
 		print(bcolors.OKGREEN + '\n------- PARAMETERS ------- \n' + bcolors.ENDC)
 
@@ -201,15 +226,19 @@ if __name__ == '__main__':
 	elif sys == 'Linux':
 		clear = 'clear'
 
-	current_path = os.getcwd()
+	ROOT = os.path.abspath(__file__)
+	FILENAME = os.path.basename(__file__)
+	ROOT = ROOT.replace(FILENAME, '')
 
-	model_saved_path = os.path.join(current_path, 'models_saved')
-	models_code_path = os.path.join(current_path, 'models_code')
-	dataset_path = os.path.join(current_path, 'DATASETS')
+	model_saved_path = os.path.join(ROOT, 'models_saved')
+	models_code_path = os.path.join(ROOT, 'models_code')
+	dataset_path = os.path.join(ROOT, 'DATASETS')
 
-	path['report_path'] = os.path.join(current_path, 'results', 'report')
-	path['plot_path'] = os.path.join(current_path, 'results', 'plot')
+	path['report_path'] = os.path.join(ROOT, 'results', 'report')
+	path['plot_path'] = os.path.join(ROOT, 'results', 'plot')
 	path['model_saved_path'] = model_saved_path
+	path['models_code_path'] = models_code_path
+	path['dataset_path'] = dataset_path
 	
 	create_dirs()
 
@@ -240,7 +269,7 @@ if __name__ == '__main__':
 	### ======= WIZARD MODE ======= ###
 	### =========================== ###
 
-	elif args.command == 'wiz':
+	else:
 		os.system(clear)
 
 		chaser = '_'
@@ -262,10 +291,10 @@ if __name__ == '__main__':
 				if check:
 					show_main_menu()
 
-			elif chaser == '4':
+			elif chaser.lower() == 'p':
 				show_parameters()
 
-			elif chaser == '5':
+			elif chaser == '4':
 				try:
 					if main_v['mode'] == 'train-val' or main_v['mode'] == 'train-test':
 						main_v['input_model'] = None
@@ -319,6 +348,32 @@ if __name__ == '__main__':
 
 				for item in main_v:
 					main_v[item] = None
+
+			elif chaser == '77':
+				main_v['mode'] = 'multitrain'
+				multi_train()
+				show_main_menu()
+
+			elif chaser == '99':
+
+				if main_v['dataset_name'] != None and main_v['mode'] == 'multitrain':
+
+					for it in range(multi_v['iter_train']):
+						if multi_v['architecture'] == 'FCNN':
+							model = FCNN(multi_v['input_net'][it], main_v['num_classes'], multi_v['l_rate'][it])
+						elif multi_v['architecture'] == 'RAVNET':
+							model = RAVNET(multi_v['input_net'][it], main_v['num_classes'], multi_v['l_rate'][it])
+						elif multi_v['architecture'] == 'FAB_CONVNET':
+							model = FAB_CONVNET(multi_v['input_net'][it], main_v['num_classes'], multi_v['l_rate'][it])
+
+						start_multitrain(model, it)
+
+					waiter = input('\nPress ENTER to continue')
+					os.system(clear)
+					show_main_menu()
+
+				else:
+					print('\n>>> Set parameters first')
 
 			elif chaser.lower() == '00':
 				waiter = input('\n>>> Press any key to close the program...')
