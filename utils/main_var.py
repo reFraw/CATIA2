@@ -21,7 +21,24 @@ path = {'current_path' : None,
 		'report_path' : None,
 		'plot_path' : None,
 		'model_saved_path' : None,
-		'models_code_path' : None}
+		'models_code_path' : None,
+		'dataset_path' : None}
+
+multi_v = {
+	'epochs' : [],
+	'learning_rate' : [],
+	'batch_size' : [],
+	'image_size' : [],
+	'dataset_size' : [],
+	'channels' : [],
+	'color_mode' : [],
+	'output_model' : [],
+	'output_model_name' : [],
+	'val_split' : [],
+	'architecture' : None,
+	'l_rate' : [],
+	'input_net' : [],
+	'iter_train' : None}
 
 train_data = None
 test_data = None
