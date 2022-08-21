@@ -339,8 +339,10 @@ if __name__ == '__main__':
 						else:
 							print('\n>>> Function not enabled.')
 							pass
+					elif main_v['mode'] == 'multitrain':
+						print('\n>>> Use ' + bcolors.OKCYAN + 'START MULTITRAIN MODE ' + bcolors.ENDC + 'instead')
 					else:
-						print('\n>>> SET MODE FIRST.')
+						print('\n>>> Set mode first.')
 				except Exception as e:
 					print('\n>>> Error occured.\n\n')
 					print(e)
