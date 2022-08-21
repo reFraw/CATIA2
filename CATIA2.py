@@ -320,9 +320,10 @@ if __name__ == '__main__':
 
 						try:
 							workflow(main_v['mode'], model)
+							for item in main_v:
+								main_v[item] = None
 							show_main_menu()
 						except Exception as e:
-							print('\n\n>>> Error : ', e)
 							print('\n>>> Error occured. Please check parameters.')
 
 					elif main_v['mode'] == 'test':
@@ -332,24 +333,21 @@ if __name__ == '__main__':
 						if main_v['dataset_name'] is not None:
 							try:
 								workflow(main_v['mode'])
+								for item in main_v:
+									main_v[item] = None
 								show_main_menu()
 							except Exception as e:
-								print(e)
 								print('\n>>> Error occured. Please check parameters.')
 						else:
 							print('\n>>> Function not enabled.')
 							pass
+
 					elif main_v['mode'] == 'multitrain':
 						print('\n>>> Use ' + bcolors.OKCYAN + 'START MULTITRAIN MODE ' + bcolors.ENDC + 'instead')
 					else:
 						print('\n>>> Set mode first.')
 				except Exception as e:
 					print('\n>>> Error occured.\n\n')
-					print(e)
-					print('\n\n')
-
-				for item in main_v:
-					main_v[item] = None
 
 			elif chaser == '77':
 				main_v['mode'] = 'multitrain'
