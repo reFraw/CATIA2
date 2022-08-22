@@ -18,10 +18,5 @@ CATIA2 has two modes:
 
 To see the parameters to be entered in the one-line mode use 'python CATIA2.py one-line -h'.
 
-Starting the program for the first time allows the creation of folders:
-1) **DATASETS**: The datasets to be analyzed must be entered in this folder.
-2) **models_save**: The trained models are saved in this folder.
-3) **results**: The reports of the training and testing phases are saved in this folder, together with the plots of the main metrics.
-
 ### Notes
 1) The inspiration for the writing of this project comes from the TAMI tool (https://github.com/Djack1010/tami) used during my internship and thesis work.
