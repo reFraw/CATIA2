@@ -18,7 +18,7 @@ CATIA2 has two modes:
 
 To see the parameters to be entered in the one-line mode use 'python CATIA2.py one-line -h'.
 
-
+The initial start of the program allows the creation of the DATASETS, models_saved and results folders.
 
 ### Notes
 1) The inspiration for the writing of this project comes from the TAMI tool (https://github.com/Djack1010/tami) used during my internship and thesis work.
