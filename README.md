@@ -18,6 +18,8 @@ CATIA2 has two modes:
 
 To see the parameters to be entered in the one-line mode use 'python CATIA2.py one-line -h'.
 
+
+
 ### Notes
 1) The inspiration for the writing of this project comes from the TAMI tool (https://github.com/Djack1010/tami) used during my internship and thesis work.
 2) Currently start the program using WSL.
