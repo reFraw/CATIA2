@@ -7,6 +7,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow
 import argparse
 import platform
+import subprocess
 
 from utils.main_var import main_v
 from utils.main_var import multi_v
@@ -130,18 +131,16 @@ def show_main_menu():
 	print(bcolors.HEADER +  header + bcolors.ENDC)
 	print('\n' + bcolors.HEADER + repo + bcolors.ENDC)
 
-	print(bcolors.OKCYAN + '\n\n\t   MENU\n' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '{1}--- Mode selection' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '{2}--- Dataset selection' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '{3}--- Architecture selection' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '{4}--- Start CNN\n' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\n\n\t\t\t\t\tMENU\n' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t{1}--- Mode selection\t\t\t{P}--- Check parameters' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t{2}--- Dataset selection\t\t{D}--- Open DATASETS folder' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t{3}--- Architecture selection\t\t{R}--- Open RESULTS folder' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t{4}--- Start CNN\t\t\t{M}--- Open MODELS_SAVED folder\n' + bcolors.ENDC)
 
-	print(bcolors.OKCYAN + '{77}-- Set Multi-Train mode' + bcolors.ENDC)
-	print(bcolors.OKCYAN + '{99}-- Start Multi-Train mode\n' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t{77}-- Set Multi-Train mode' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t{99}-- Start Multi-Train mode\n' + bcolors.ENDC)
 
-	print(bcolors.OKCYAN + '{P}--- Check parameters\n' + bcolors.ENDC)
-
-	print(bcolors.OKCYAN + '{00}-- Exit program\n\n' + bcolors.ENDC)
+	print(bcolors.OKCYAN + '\t{00}-- Exit program\n\n' + bcolors.ENDC)
 
 
 def show_parameters():
@@ -234,6 +233,7 @@ if __name__ == '__main__':
 	models_code_path = os.path.join(ROOT, 'models_code')
 	dataset_path = os.path.join(ROOT, 'DATASETS')
 
+	path['result_path'] = os.path.join(ROOT, 'results')
 	path['report_path'] = os.path.join(ROOT, 'results', 'report')
 	path['plot_path'] = os.path.join(ROOT, 'results', 'plot')
 	path['model_saved_path'] = model_saved_path
@@ -374,6 +374,21 @@ if __name__ == '__main__':
 
 				else:
 					print('\n>>> Set parameters first')
+
+			elif chaser.lower() == 'd':
+				os.chdir(path['dataset_path'])
+				os.system('explorer.exe .')
+				os.chdir(ROOT)
+
+			elif chaser.lower() == 'm':
+				os.chdir(path['model_saved_path'])
+				os.system('explorer.exe .')
+				os.chdir(ROOT)
+
+			elif chaser.lower() == 'r':
+				os.chdir(path['result_path'])
+				os.system('explorer.exe .')
+				os.chdir(ROOT)
 
 			elif chaser.lower() == '00':
 				waiter = input('\n>>> Press any key to close the program...')
