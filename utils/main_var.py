@@ -18,6 +18,7 @@ main_v = {'mode' : None,
 			'epochs' : None}
 
 path = {'current_path' : None,
+		'result_path' : None,
 		'report_path' : None,
 		'plot_path' : None,
 		'model_saved_path' : None,
