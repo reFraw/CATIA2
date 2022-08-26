@@ -37,6 +37,7 @@ def select_dataset(dataset_path, mode):
 
 	if len(os.listdir(dataset_path)) == 0:
 		print('\n>>> No dataset available')
+		os.system(clear)
 		return False
 
 	else:
