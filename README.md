@@ -12,11 +12,7 @@ Actually this project was born as a training tool for my programming skills.
 To add a personal dataset, remember that it must have two folders, called 'training' and 'test', where in each one there are subfolders related to the classes.
 
 ### Usage
-CATIA2 has two modes:
 1) Wizard mode >>> Enter 'python CATIA2.py'
-2) One-line mode >>> Enter 'python CATIA2.py one-line'
-
-To see the parameters to be entered in the one-line mode use 'python CATIA2.py one-line -h'.
 
 The initial start of the program allows the creation of the DATASETS, models_saved and results folders.
 
