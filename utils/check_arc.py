@@ -50,7 +50,7 @@ def check_architecture():
 	print(Bcolors.OKGREEN)
 
 	if arc_choice == 1:
-		model = build_FCNN((128, 128, 1), 3, 0.001)
+		model = build_FCNN((100, 100, 1), 2, 0.001)
 		model.summary()
 	elif arc_choice == 2:
 		model = build_FABCONVNET((100, 100, 1), 2, 0.001)
