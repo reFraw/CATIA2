@@ -12,7 +12,7 @@ Actually this project was born as a training tool for my programming skills.
 To add a personal dataset, remember that it must have two folders, called 'training' and 'test', where in each one there are subfolders related to the classes.
 
 ### Usage
-1)Enter 'python3 main.py'
+1)Enter 'python3 main.py' in CATIA2 folder.
 
 The initial start of the program allows the creation of the DATASETS, models_saved and results folders.
 
