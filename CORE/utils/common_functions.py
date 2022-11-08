@@ -13,6 +13,10 @@ def clear_screen():
 		os.system('cls')
 	else:
 		os.system('clear')
+		
+def check_system():
+	sys = platform.system()
+	return sys
 
 
 def create_dirs():
