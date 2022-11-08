@@ -89,7 +89,7 @@ if __name__ == '__main__':
 			if onWSL:
 				os.system('explorer.exe .')
 			else:
-				os.system('open')
+				os.system('open .')
 			os.chdir(ROOT)
 
 		elif chaser.lower() == 'm':
@@ -97,7 +97,7 @@ if __name__ == '__main__':
 			if onWSL:
 				os.system('explorer.exe .')
 			else:
-				os.system('open')
+				os.system('open .')
 			os.chdir(ROOT)
 
 		elif chaser.lower() == 'r':
@@ -105,7 +105,7 @@ if __name__ == '__main__':
 			if onWSL:
 				os.system('explorer.exe .')
 			else:
-				os.system('open')
+				os.system('open .')
 			os.chdir(ROOT)
 
 		else:
