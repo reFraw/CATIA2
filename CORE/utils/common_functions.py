@@ -6,6 +6,7 @@ from .header import Headers
 
 import platform
 import os
+from platform import uname
 
 def clear_screen():
 	sys = platform.system()
@@ -14,9 +15,8 @@ def clear_screen():
 	else:
 		os.system('clear')
 		
-def check_system():
-	sys = platform.system()
-	return sys
+def in_wsl() -> bool:
+	return 'microsoft-standard' in uname().release
 
 
 def create_dirs():
