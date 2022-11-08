@@ -16,6 +16,7 @@ from utils.common_functions import create_dirs
 from utils.common_functions import show_menu
 from utils.common_functions import clear_parameters
 from utils.common_functions import check_parameters
+from utils.common_functions import check_system
 from utils.mode_selection import mode_selection
 from utils.dataset_selection import dataset_selection
 from utils.arc_selection import architecture_selection
@@ -38,8 +39,9 @@ if __name__ == '__main__':
 	path['report'] = os.path.join(ROOT, 'results', 'report')
 
 	create_dirs()
-
 	show_menu()
+	
+	system_name = check_system()
 
 	while True:
 		chaser = input(Headers.INPUT_CHASER)
@@ -84,17 +86,26 @@ if __name__ == '__main__':
 
 		elif chaser.lower() == 'd':
 			os.chdir(path['dataset'])
-			os.system('explorer.exe .')
+			if system_name == 'Windows':
+				os.system('explorer.exe .')
+			else:
+				os.system('open')
 			os.chdir(ROOT)
 
 		elif chaser.lower() == 'm':
 			os.chdir(path['models_saved'])
-			os.system('explorer.exe .')
+			if system_name == 'Windows':
+				os.system('explorer.exe .')
+			else:
+				os.system('open')
 			os.chdir(ROOT)
 
 		elif chaser.lower() == 'r':
 			os.chdir(path['results'])
-			os.system('explorer.exe .')
+			if system_name == 'Windows':
+				os.system('explorer.exe .')
+			else:
+				os.system('open')
 			os.chdir(ROOT)
 
 		else:
