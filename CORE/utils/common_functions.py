@@ -45,7 +45,7 @@ def show_menu():
 	print('     [04] Start NN\t\t\t\t[M] Open MODELS_SAVED Folder\n')
 
 	print('     [CC] Clear parameters\t\t\t[AA] Check Architecture')
-	print('     [EE] CLose Program\t\t\t\t[OO] Save model\n')
+	print('     [EE] Close Program\t\t\t\t[OO] Save model\n')
 	print(Bcolors.ENDC)
 
 
