@@ -23,3 +23,7 @@ The initial start of the program allows the creation of the DATASETS, models_sav
 ### Notes
 1) The inspiration for the writing of this project comes from the TAMI tool (https://github.com/Djack1010/tami) used during my internship and thesis work.
 2) Use WSL if you are on Windows.
+
+### Update
+
+version 2.0.2 - Added GradCAM algorithm
