@@ -23,7 +23,8 @@ path = {
 	'models_saved' : None,
 	'results' : None,
 	'report' : None,
-	'plot' : None
+	'plot' : None,
+	'gradcam' : None
 }
 
 multi_variables = {

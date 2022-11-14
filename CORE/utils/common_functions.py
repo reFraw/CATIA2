@@ -32,6 +32,9 @@ def create_dirs():
 	if not os.path.exists(path['report']):
 		os.makedirs(path['report'])
 
+	if not os.path.exists(path['gradcam']):
+		os.makedirs(path['gradcam'])
+
 
 def show_menu():
 	print(Bcolors.HEADER)
@@ -103,14 +106,14 @@ def check_parameters():
 		print('Output model : {}'.format(main_v['output_model_name']))
 		print(Bcolors.ENDC)
 
-	elif main_v['mode'] == 'test':
+	elif main_v['mode'] == 'test' or main_v['mode'] == 'gradcam':
 		print(Bcolors.OKGREEN)
 		print('\n# ============ PARAMETERS ============ #\n')
 		print('Mode : {}'.format(main_v['mode']))
 		print('Input model : {}'.format(input_name))
 		print('Input model path : {}'.format(main_v['input_model_path']))
 		print('Image size : {}'.format(image_size))
-		print('Color mode (Channels) : {} ({})'.format(main_v['color_mode'], channels))
+		print('Color mode (Channels) : {} ({})'.format(main_v['color_mode'], main_v['channels']))
 		print('Dataset : {}'.format(main_v['dataset']))
 		print('Number of classes : {}'.format(main_v['num_classes']))
 		print(Bcolors.ENDC)

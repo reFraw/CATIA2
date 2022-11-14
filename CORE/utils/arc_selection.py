@@ -15,7 +15,7 @@ def architecture_selection():
 
 	global main_v
 
-	if main_v['mode'] == 'test':
+	if main_v['mode'] == 'test' or main_v['mode'] == 'gradcam':
 		print('\n>>> Function not enabled')
 
 	elif main_v['mode'] is None:

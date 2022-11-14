@@ -23,12 +23,13 @@ def mode_selection():
 >>> Select one of the available modes\n
   [1] Training w/ Validation
   [2] Training w/ Testing
-  [3] Testing\n''')
+  [3] Testing
+  [4] GradCAM - Gradient-Weighted Class Activation Mapping\n''')
 	print(Bcolors.ENDC)
 
 	inp =''
 
-	while inp != '1' and inp != '2' and inp != '3':
+	while inp != '1' and inp != '2' and inp != '3' and inp != '4':
 
 		inp = input(Headers.INPUT_CHASER)
 
@@ -56,7 +57,7 @@ def mode_selection():
 			main_v['mode'] = 'train-test'
 			main_v['input_model_name'] = None
 
-		elif inp == '3':
+		elif inp == '3' or inp == '4':
 
 			if len(os.listdir(path['models_saved'])) == 0:
 				print('\n>>> No models available')
@@ -64,7 +65,10 @@ def mode_selection():
 			else:
 				chosen_model = ''
 				model_available = [model for model in os.listdir(path['models_saved'])]
-				main_v['mode'] = 'test'
+				if inp == '3':
+					main_v['mode'] = 'test'
+				else:
+					main_v['mode'] = 'gradcam'
 				print('\n>>> Select one of the available models:\n')
 				for model in model_available:
 					print(Bcolors.OKGREEN + '  ' + model + Bcolors.ENDC)
@@ -86,6 +90,7 @@ def mode_selection():
 						image_size = (int(image_size[:index_x]), int(image_size[:index_x]))
 						main_v['image_size'] = image_size
 						channels = main_v['input_model_name'][-1]
+						main_v['channels'] = int(channels)
 						if channels == '1':
 							main_v['color_mode'] = 'grayscale'
 						elif channels == '3':

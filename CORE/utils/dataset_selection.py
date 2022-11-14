@@ -16,7 +16,7 @@ def dataset_selection():
 
 	else:
 
-		if main_v['mode'] == 'test' or main_v['mode'] == 'multi-train':
+		if main_v['mode'] == 'test' or main_v['mode'] == 'gradcam':
 			clear_screen()
 			print(Bcolors.HEADER)
 			print(Headers.DATASET_HEADER)

@@ -18,13 +18,14 @@ from .models_code.ALEXNET import build_ALEXNET
 from .models_code.LE_NET import build_LENET
 from .common_functions import clear_screen, show_menu
 from .results import save_report, save_graph
+from .gradcam_backcode import apply_gradcam
 
 def check_start():
 
 	train_check = main_v['dataset'] != None and main_v['architecture'] != None
 	test_check = main_v['dataset'] != None
 
-	if main_v['mode'] == 'test' and test_check:
+	if (main_v['mode'] == 'test' or main_v['mode'] == 'gradcam') and test_check:
 		return True
 
 	elif (main_v['mode'] == 'train-val' or main_v['mode'] == 'train-test') and train_check:
@@ -86,6 +87,29 @@ def startNN():
 			test_results = loaded_model.evaluate(test_data, return_dict=True)
 
 			save_report(test_results=test_results, time=date)
+
+			waiter = input('\n>>> Press ENTER to continue')
+			for item in main_v:
+				main_v[item] = None
+
+			clear_screen()
+			show_menu()
+
+		# ==============================================================================================================================================
+
+		if main_v['mode'] == 'gradcam':
+
+			print('\n[*] Loading model {}'.format(main_v['input_model_name']))
+
+			loaded_model = tensorflow.keras.models.load_model(main_v['input_model_path'])
+			loaded_model_name = main_v['input_model_name']
+			test_path = os.path.join(path['dataset'], main_v['dataset'], 'test')
+			channels = main_v['channels']
+			img_size = main_v['image_size'][0]
+
+			print('\n[*] Starting execution at {}'.format(datetime.now()))
+
+			apply_gradcam(loaded_model_name, loaded_model, test_path, img_size, channels, date)
 
 			waiter = input('\n>>> Press ENTER to continue')
 			for item in main_v:
