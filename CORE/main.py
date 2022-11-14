@@ -37,6 +37,7 @@ if __name__ == '__main__':
 	path['results'] = os.path.join(ROOT, 'results')
 	path['plot'] = os.path.join(ROOT, 'results', 'plot')
 	path['report'] = os.path.join(ROOT, 'results', 'report')
+	path['gradcam'] = os.path.join(ROOT, 'results', 'gradcam')
 
 	create_dirs()
 	show_menu()
@@ -52,7 +53,7 @@ if __name__ == '__main__':
 			print(quit())
 
 		elif chaser.lower() == 'oo':
-			if main_v['mode'] == 'test':
+			if main_v['mode'] == 'test' or main_v['mode'] == 'gradcam':
 				print('\n>>> Function not enabled')
 			elif main_v['mode'] is None:
 				print('\n>>> Set mode first')
