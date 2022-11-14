@@ -25,5 +25,4 @@ The initial start of the program allows the creation of the DATASETS, models_sav
 2) Use WSL if you are on Windows.
 
 ### Update
-
-version 2.0.2 - Added GradCAM algorithm
+- Version 2.1.0 - Added GradCAM algorithm
