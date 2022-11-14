@@ -3,3 +3,7 @@ matplotlib
 numpy
 tensorflow
 tensorboard
+opencv-python
+imutils
+tqdm
+datetime
