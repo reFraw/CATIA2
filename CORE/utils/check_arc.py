@@ -11,6 +11,7 @@ from .models_code.RAVNET import build_RAVNET
 from .models_code.SCNN import build_SCNN
 from .models_code.ALEXNET import build_ALEXNET
 from .models_code.LE_NET import build_LENET
+from .models_code.SOTA_model import build_SOTA
 from .common_functions import clear_screen, show_menu
 
 from time import sleep
@@ -43,7 +44,7 @@ def check_architecture():
 
 	print('\n[*] Cheking model')
 	for i in range(2):
-		sleep(1)
+		sleep(0.5)
 		print('[*] Cheking model')
 
 	print('\n>>> MODEL SUMMARY:\n')
@@ -67,8 +68,29 @@ def check_architecture():
 	elif arc_choice == 6:
 		model = build_LENET((100, 100, 1), 2, 0.001)
 		model.summary()
-	if arc_choice == 7:
+	elif arc_choice == 7:
 		model = build_FCNN2((100, 100, 1), 2, 0.001)
+		model.summary()
+	elif arc_choice == 8:
+		model = build_SOTA('VGG16', (100, 100, 3), 2, 0.001)
+		model.summary()
+	elif arc_choice == 9:
+		model = build_SOTA('VGG19', (100, 100, 3), 2, 0.001)
+		model.summary()
+	elif arc_choice == 10:
+		model = build_SOTA('ResNet50', (100, 100, 3), 2, 0.001)
+		model.summary()
+	elif arc_choice == 11:
+		model = build_SOTA('DenseNet121', (100, 100, 3), 2, 0.001)
+		model.summary()
+	elif arc_choice == 12:
+		model = build_SOTA('EfficientNetB0', (100, 100, 3), 2, 0.001)
+		model.summary()
+	elif arc_choice == 13:
+		model = build_SOTA('InceptionV3', (100, 100, 3), 2, 0.001)
+		model.summary()
+	elif arc_choice == 14:
+		model = build_SOTA('Xception', (100, 100, 3), 2, 0.001)
 		model.summary()
 
 	print(Bcolors.ENDC)

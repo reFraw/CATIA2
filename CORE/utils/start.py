@@ -16,6 +16,7 @@ from .models_code.RAVNET import build_RAVNET
 from .models_code.SCNN import build_SCNN
 from .models_code.ALEXNET import build_ALEXNET
 from .models_code.LE_NET import build_LENET
+from .models_code.SOTA_model import build_SOTA
 from .common_functions import clear_screen, show_menu
 from .results import save_report, save_graph
 from .gradcam_backcode import apply_gradcam
@@ -57,6 +58,8 @@ def startNN():
 				model = build_ALEXNET(main_v['input_net'], main_v['num_classes'], main_v['learning_rate'])
 			elif main_v['architecture'] == 'LE_NET':
 				model = build_LENET(main_v['input_net'], main_v['num_classes'], main_v['learning_rate'])
+			else:
+				model = build_SOTA(main_v['architecture'], main_v['input_net'], main_v['num_classes'], main_v['learning_rate'])
 
 			if main_v['output_model_name'] != None:
 				output_name = main_v['output_model_name'] + '_m' + main_v['architecture'] + '_i' + str(main_v['input_net'][0]) + 'x' + str(main_v['channels'])

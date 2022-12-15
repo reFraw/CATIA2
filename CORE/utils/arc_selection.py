@@ -87,8 +87,22 @@ def architecture_selection():
 			main_v['architecture'] = 'ALEXNET'
 		elif model_choice == 6:
 			main_v['architecture'] = 'LE_NET'
-		if model_choice == 7:
+		elif model_choice == 7:
 			main_v['architecture'] = 'FCNN-2'
+		elif model_choice == 8:
+			main_v['architecture'] = 'VGG16'
+		elif model_choice == 9:
+			main_v['architecture'] = 'VGG19'
+		elif model_choice == 10:
+			main_v['architecture'] = 'ResNet50'
+		elif model_choice == 11:
+			main_v['architecture'] = 'DenseNet121'
+		elif model_choice == 12:
+			main_v['architecture'] = 'EfficientNetB0'
+		elif model_choice == 13:
+			main_v['architecture'] = 'InceptionV3'
+		elif model_choice == 14:
+			main_v['architecture'] = 'Xception'
 
 		lr_choice = -0.1
 		print('\n>>> Insert learning rate')

@@ -48,5 +48,12 @@ available_arc = [
 	'SCNN',
 	'ALEXNET',
 	'LE_NET',
-	'FCNN-2'
-]
+	'FCNN-2',
+	'VGG16',
+	'VGG19',
+	'ResNet50',
+	'DenseNet121',
+	'EfficientNetB0',
+	'InceptionV3',
+	'Xception'
+	]

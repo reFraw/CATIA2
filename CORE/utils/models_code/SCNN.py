@@ -21,7 +21,7 @@ def build_SCNN(input_net, num_classes, learning_rate):
 		Dropout(0.5),
 		Dense(256, activation='relu'),
 		Dropout(0.5),
-		Dense(num_classes, activation='softmax')], name='SCNN')
+		Dense(num_classes, activation='softmax')], name='SCNN-Plus')
 
 	model.compile(
 		loss='categorical_crossentropy',

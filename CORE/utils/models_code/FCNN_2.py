@@ -8,47 +8,39 @@ from tensorflow.keras.optimizers import RMSprop
 
 def build_FCNN2(input_net, num_classes, learning_rate):
 
-	visible = Input(shape=input_net)
-
-	# Branch - 1
-	y1 = Conv2D(32, (3, 3)) (visible)
-	y1 = LeakyReLU(alpha=0.2) (y1)
-	y1 = AveragePooling2D((2, 2)) (y1)
-	y1 = Conv2D(64, (3, 3)) (y1)
-	y1 = LeakyReLU(alpha=0.2) (y1)
-	y1 = AveragePooling2D((2, 2)) (y1)
-	y1 = Conv2D(64, (3, 3), activation='relu') (y1)
-	y1 = MaxPooling2D((2, 2)) (y1)
-
-	flat1 = Flatten() (y1)
-
-	# Branch - 2
-	y2 = Conv2D(32, (7, 7)) (visible)
-	y2 = LeakyReLU(alpha=0.2) (y2)
-	y2 = AveragePooling2D((2, 2)) (y2)
-	y2 = Conv2D(64, (7, 7)) (y2)
-	y2 = LeakyReLU(alpha=0.2) (y2)
-	y2 = AveragePooling2D((2, 2)) (y2)
-	y2 = Conv2D(64, (7, 7), activation='relu') (y2)
-	y2 = MaxPooling2D((2, 2)) (y2)
-
-	flat2 = Flatten() (y2)
-
-	# Final classificator
-	merged = concatenate([flat1, flat2])
-	hidden = Dense(256, activation='relu') (merged)
-	hidden = Dropout(0.5) (hidden)
-	hidden = Dense(64, activation='relu') (hidden)
-	hidden = Dropout(0.5) (hidden)
-
-	output = Dense(num_classes, activation='softmax') (hidden)
-
-	# Compiling
-	model = Model(inputs=visible, outputs=output, name='FCNN-2')
-
-	model.compile(
-		loss='categorical_crossentropy',
-		optimizer=RMSprop(learning_rate=learning_rate),
-		metrics=['acc', Precision(name='prec'), Recall(name='rec'), AUC(name='auc')])
+	# INPUT LAYER
+    input_layer = layers.Input(shape=input_shape, name='input_layer')
+    
+    # BLOCK 01
+    conv1_01 = layers.Conv2D(32, (3, 3), padding='same', activation='elu', name='conv1_block01') (input_layer)
+    conv2_01 = layers.Conv2D(32, (5, 5), padding='same', activation='elu', name='conv2_block01') (input_layer)
+    conv3_01 = layers.Conv2D(32, (7, 7), padding='same', activation='elu', name='conv3_block01') (input_layer)
+    unit_01 = layers.Concatenate(name='concatenate_1') ([conv1_01, conv2_01, conv3_01])
+    conv_final_01 = layers.Conv2D(16, (1, 1), padding='same', activation='relu', name='conv1d_1') (unit_01)
+    final_01 = layers.MaxPooling2D((2, 2), name='maxpooling_1') (conv_final_01)
+    
+    # BLOCK 02
+    conv1_02 = layers.Conv2D(64, (3, 3), padding='same', activation='elu', name='conv1_block02') (final_01)
+    conv2_02 = layers.Conv2D(64, (5, 5), padding='same', activation='elu', name='conv2_block02') (final_01)
+    conv3_02 = layers.Conv2D(64, (7, 7), padding='same', activation='elu', name='conv3_block02') (final_01)
+    unit_02 = layers.Concatenate(name='concatenate_2') ([conv1_02, conv2_02, conv3_02])
+    conv_final_02 = layers.Conv2D(32, (1, 1), padding='same', activation='relu', name='conv1d_2') (unit_02)
+    final_02 = layers.MaxPooling2D((2, 2), name='maxpooling_2') (conv_final_02)
+    
+    # CLASSIFICATION BLOCK
+    vectorized = layers.Flatten(name='flatten') (final_02)
+    dropout_1 = layers.Dropout(0.5, name='dropout_1') (vectorized)
+    dense_2 = layers.Dense(64, activation='relu', name='dense_1') (dropout_1)
+    dropout_2 = layers.Dropout(0.5, name='dropout_2') (dense_2)
+    
+    # OUTPUT LAYER
+    output_layer = layers.Dense(num_classes, activation='softmax', name='softmax') (dropout_2)
+    
+    model = models.Model(inputs=input_layer, outputs=output_layer, name='FCNNplus')
+    
+    model.compile(
+        loss=CategoricalCrossentropy(),
+        optimizer=Adam(learning_rate=learning_rate),
+        metrics=['acc', Precision(name='prec'), Recall(name='rec'), AUC(name='auc')])
 
 	return model
