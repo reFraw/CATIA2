@@ -3,7 +3,7 @@ matplotlib
 numpy
 tensorflow
 tensorboard
-opencv-python
+opencv-contrib-python
 imutils
 tqdm
 datetime
